@@ -1,4 +1,5 @@
 const colors = require('colors');
+const { futimesSync } = require('fs');
 const readline = require('readline')
 const CUBE = [  [   ['B','B','B'],
                     ['B','B','B'],
@@ -61,12 +62,38 @@ function getInput(){
     })
 }
 
-function parser(){
+function parser(queue){
     // F, R, U, B, L, D 이외에 숫자나 '(single quote)를 하나의 배열로 처리
+    let singleQuote = queue.filter(v => v === "'").length
+
+    // single quote merge
+    for (let i = 0; i < singleQuote ; i++){
+        let temp_index = queue.indexOf("'")
+        queue[temp_index - 1] += "'"
+        queue.splice(temp_index,1)
+    }
+    // number copy to times
+    queue.map( function(val, idx) {
+        console.log(val,":",idx)
+        if(parseInt(val)){
+            queue.splice(idx,1)
+            for(let i=1; i < parseInt(val); i++){
+                queue.splice(idx,0,queue[idx-1])
+            }
+        }
+    })
+    
+    return queue
 }
 
-function processing(){
+function processing(line){
     // parser를 거친 input을 count 횟수만큼 push에 호출
+    let queue = parser(line.split(''))
+    console.log(queue)
+    // queue.map(function(v){
+    //     push(v)
+    //     printArray(CUBE)
+    // })
 }
 
 function push(){

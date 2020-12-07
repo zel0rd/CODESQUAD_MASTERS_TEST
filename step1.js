@@ -3,9 +3,6 @@ const readline = require("readline");
 const DIRECTIONS = ['L','R']
 
 function getInput() {
-    // getInput - readline
-    // process - direction, text, count
-    // push - text, direction
     let rl = readline.createInterface(process.stdin, process.stdout)
     rl.setPrompt("> ")
     rl.prompt();

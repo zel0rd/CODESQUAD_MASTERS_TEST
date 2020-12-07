@@ -56,7 +56,7 @@ function processing(line){
     for(let i=0; i < count;i++){
         text = push(text,direction)
     }
-    console.log(text)
+    console.log(text.blue)
 }
 
 function push(text, direction){

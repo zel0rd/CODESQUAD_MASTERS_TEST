@@ -1,4 +1,5 @@
 const colors = require('colors');
+const readline = require('readline')
 const CUBE = [  [   ['B','B','B'],
                     ['B','B','B'],
                     ['B','B','B']   ],
@@ -39,7 +40,25 @@ function printArray(cube){
 }
 
 function getInput(){
+    console.log("초기 상태 출력".red)
+    printArray(CUBE)
     // 큐브를 조작할 순서를 받음
+
+    let rl = readline.createInterface(process.stdin, process.stdout)
+    rl.setPrompt("CUBE> ")
+    rl.prompt();
+    rl.on('line', function(line) {
+        if (line.toLowerCase() === 'q' || line.toLowerCase()==='quit'){
+            rl.close()
+        } else {
+            processing(line)
+        }
+        rl.prompt()
+    })
+    .on('close', () => {
+        console.log("Bye~".red)
+        process.exit();
+    })
 }
 
 function parser(){

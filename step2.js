@@ -44,11 +44,14 @@ function getInput(){
 }
 
 function processing(line){
-    console.log(line)
+    let queue = line.split('')
+    queue.map(function(v){
+        push(v)
+    })
 }
 
-function push(){
-
+function push(v){
+    console.log("executed from push :",v)
 }
 
 getInput()

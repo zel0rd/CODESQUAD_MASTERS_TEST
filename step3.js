@@ -1,24 +1,25 @@
 const colors = require('colors');
-const { futimesSync } = require('fs');
-const readline = require('readline')
-const CUBE = [  [   ['B','B','B'],
-                    ['B','B','B'],
-                    ['B','B','B']   ],
-                [   ['W','W','W'],
-                    ['W','W','W'],
-                    ['W','W','W']   ],
-                [   ['O','O','O'],
-                    ['O','O','O'],
-                    ['O','O','O']   ],
-                [   ['G','G','G'],
-                    ['G','G','G'],
-                    ['G','G','G']   ],
-                [   ['Y','Y','Y'],
-                    ['Y','Y','Y'],
-                    ['Y','Y','Y']   ],
-                [   ['R','R','R'],
-                    ['R','R','R'],
-                    ['R','R','R']   ]
+const readline = require('readline');
+const count = 0
+
+const CUBE = [  [   ['U1','U2','U3'],
+                    ['U4','U5','U6'],
+                    ['U7','U8','U9']   ],
+                [   ['F1','F2','F3'],
+                    ['F4','F5','F6'],
+                    ['F7','F8','F9']   ],
+                [   ['R1','R2','R3'],
+                    ['R4','R5','R6'],
+                    ['R7','R8','R9']   ],
+                [   ['B1','B2','B3'],
+                    ['B4','B5','B6'],
+                    ['B7','B8','B9']   ],
+                [   ['L1','L2','L3'],
+                    ['L4','L5','L6'],
+                    ['L7','L8','L9']   ],
+                [   ['D1','D2','D3'],
+                    ['D4','D5','D6'],
+                    ['D7','D8','D9']   ],
             ]
 
 function printArray(cube){
@@ -57,7 +58,8 @@ function getInput(){
         rl.prompt()
     })
     .on('close', () => {
-        console.log("Bye~".red)
+        timeMeasure(startTime,  new Date())
+        printCount()
         process.exit();
     })
 }
@@ -101,8 +103,15 @@ function push(v){
     console.log(`executed : ${v}`)
 }
 
-function timeMeasure(){
+function timeMeasure(startTime, endTime){
     // 시작부터 끝날 때 까지의 시간을 기록
+    let minutes = parseInt((endTime-startTime)/1000/60)
+    let seconds = parseInt((endTime-startTime)/1000%60)
+    console.log(`경과시간:`,`${minutes > 9 ? ""+minutes : "0"+minutes}:${seconds > 9 ? ""+seconds : "0"+seconds}`.red)
+}
+
+function printCount(){
+    console.log(`조작갯수:`,`${count}`.red)
 }
 
 function mixCube(){
@@ -113,4 +122,6 @@ function completeCheck(){
     // push를 수행할 때마다 모든 면이 같은 색상이 되었는지 확인
 }
 
+
+let startTime = new Date()
 getInput()

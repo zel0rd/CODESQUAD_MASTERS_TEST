@@ -74,7 +74,6 @@ function parser(queue){
     }
     // number copy to times
     queue.map( function(val, idx) {
-        console.log(val,":",idx)
         if(parseInt(val)){
             queue.splice(idx,1)
             for(let i=1; i < parseInt(val); i++){
@@ -83,22 +82,23 @@ function parser(queue){
         }
     })
     
+    queue = queue.map(v=> v.toUpperCase())
     return queue
 }
 
 function processing(line){
     // parser를 거친 input을 count 횟수만큼 push에 호출
     let queue = parser(line.split(''))
-    console.log(queue)
-    // queue.map(function(v){
-    //     push(v)
-    //     printArray(CUBE)
-    // })
+    queue.map(function(v){
+        push(v)
+        printArray(CUBE)
+    })
 }
 
-function push(){
+function push(v){
     // 큐브를 조작
     // 총 몇회를 조작했는지 기록
+    console.log(`executed : ${v}`)
 }
 
 function timeMeasure(){

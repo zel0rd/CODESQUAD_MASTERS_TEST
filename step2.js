@@ -1,5 +1,6 @@
-const { get } = require("http")
+const readline = require("readline");
 
+const DIRECTIONS = ['L','R']
 const INIT_ARRAY = [['R','R','W'],['G','C','W'],['G','B','B']]
 
 function printArray(arr){
@@ -15,6 +16,21 @@ function getInput(){
     printArray(INIT_ARRAY)
 
     // getInput
+    let rl = readline.createInterface(process.stdin, process.stdout)
+    rl.setPrompt("> ")
+    rl.prompt();
+    rl.on('line', function(line) {
+        if (line === 'q' || line.toLowerCase()==='quit'){
+            rl.close()
+        } else {
+            processing(line)
+        }
+        rl.prompt()
+    })
+    .on('close', () => {
+        console.log("Bye~")
+        process.exit();
+    })
     
     // processing1
     // push
@@ -27,8 +43,8 @@ function getInput(){
     // exit
 }
 
-function processing(){
-
+function processing(line){
+    console.log(line)
 }
 
 function push(){

@@ -42,11 +42,23 @@ function getInput(){
 }
 
 function processing(line){
-    let queue = line.split('')
+    let queue = parser(line.split(''))
+
+    // console.log(queue)
     queue.map(function(v){
         push(v)
         printArray(ARRAY)
     })
+}
+
+function parser(queue){
+    let singleQuote = queue.filter(v => v === "'").length
+    for (let i = 0; i < singleQuote ; i++){
+        let temp_index = queue.indexOf("'")
+        queue[temp_index - 1] += "'"
+        queue.splice(temp_index,1)
+    }
+    return queue
 }
 
 function push(v){

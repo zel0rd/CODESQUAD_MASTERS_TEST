@@ -60,6 +60,18 @@ function processing(line){
 }
 
 function push(text, direction){
+    text = text.split('')
+    if (direction === 'L'){
+        text.push(text[0])
+        text.shift()
+        text = text.join('')
+        return text
+    } else if(direction === 'R'){
+        text.unshift(text[text.length -1])
+        text.pop()
+        text = text.join('')
+        return text
+    } 
 }
 
 getInput()

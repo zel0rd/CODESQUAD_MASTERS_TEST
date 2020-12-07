@@ -1,7 +1,5 @@
 const readline = require("readline");
-
-const DIRECTIONS = ['L','R']
-const INIT_ARRAY = [['R','R','W'],['G','C','W'],['G','B','B']]
+const ARRAY = [['R','R','W'],['G','C','W'],['G','B','B']]
 
 function printArray(arr){
     arr.map( (rows) => 
@@ -13,11 +11,11 @@ function printArray(arr){
 
 function getInput(){
     // print INIT
-    printArray(INIT_ARRAY)
+    printArray(ARRAY)
 
     // getInput
     let rl = readline.createInterface(process.stdin, process.stdout)
-    rl.setPrompt("> ")
+    rl.setPrompt("CUBE> ")
     rl.prompt();
     rl.on('line', function(line) {
         if (line === 'q' || line.toLowerCase()==='quit'){
@@ -47,6 +45,7 @@ function processing(line){
     let queue = line.split('')
     queue.map(function(v){
         push(v)
+        printArray(ARRAY)
     })
 }
 

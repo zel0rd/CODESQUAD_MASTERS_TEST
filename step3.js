@@ -1,5 +1,41 @@
-function printArray(){
+const colors = require('colors');
+const CUBE = [  [   ['B','B','B'],
+                    ['B','B','B'],
+                    ['B','B','B']   ],
+                [   ['W','W','W'],
+                    ['W','W','W'],
+                    ['W','W','W']   ],
+                [   ['O','O','O'],
+                    ['O','O','O'],
+                    ['O','O','O']   ],
+                [   ['G','G','G'],
+                    ['G','G','G'],
+                    ['G','G','G']   ],
+                [   ['Y','Y','Y'],
+                    ['Y','Y','Y'],
+                    ['Y','Y','Y']   ],
+                [   ['R','R','R'],
+                    ['R','R','R'],
+                    ['R','R','R']   ]
+            ]
+
+function printArray(cube){
     // 현재 큐브의 상태를 출력
+
+    cube.map (function(dim, idx){
+        if(idx === 0 || idx == 5){
+            dim.map( (arr) => 
+                arr.map( (v) => process.stdout.write(v + " ")) + console.log("")
+            ) + console.log("")
+        } else if (idx === 1){
+            for(let i=0; i<3;i++){
+                for(let j=1; j < 5;j++){
+                    let text = cube[j][i].join(" ")
+                    process.stdout.write(text + "\t")
+                }+console.log()
+            }+console.log()
+        }
+    })
 }
 
 function getInput(){
@@ -30,3 +66,5 @@ function mixCube(){
 function completeCheck(){
     // push를 수행할 때마다 모든 면이 같은 색상이 되었는지 확인
 }
+
+getInput()

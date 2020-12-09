@@ -162,6 +162,19 @@ function printCount(){
 
 function mixCube(){
     // 초기값에서 임의로 F,R,U,B,L,D를 사용한 문자열을 생성하여 수행
+    mixLine = ''
+    for(let i=0; i < 10 ; i++){
+        mixLine += getRandomOperationSet()
+    }
+    let queue = parser(mixLine.split(''))
+    queue.map(function(v){
+        push(v)
+    })
+    timesReset()
+}
+
+function getRandomOperationSet(){
+    return OPERATION_SET[Math.floor(Math.random() * OPERATION_SET.length)]
 }
 
 function completeCheck(){

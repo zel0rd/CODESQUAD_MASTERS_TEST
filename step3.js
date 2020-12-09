@@ -1,6 +1,7 @@
 const colors = require('colors');
+const OPERATION_SET = ['U','L','F','R','B','D']
 const readline = require('readline');
-const count = 0
+let count = 0
 
 const CUBE = [  [   ['U1','U2','U3'],
                     ['U4','U5','U6'],
@@ -28,13 +29,13 @@ function printArray(cube){
     cube.map (function(dim, idx){
         if(idx === 0 || idx == 5){
             dim.map( (arr) => 
-                arr.map( (v) => process.stdout.write(v + " ")) + console.log("")
+                arr.map( (v) => process.stdout.write(v  + " ")) + console.log("")
             ) + console.log("")
         } else if (idx === 1){
             for(let i=0; i<3;i++){
                 for(let j=1; j < 5;j++){
                     let text = cube[j][i].join(" ")
-                    process.stdout.write(text + "\t")
+                    process.stdout.write(text.rainbow + "\t")
                 }+console.log()
             }+console.log()
         }
@@ -43,6 +44,7 @@ function printArray(cube){
 
 function getInput(){
     console.log("초기 상태 출력".red)
+    mixCube()
     printArray(CUBE)
     // 큐브를 조작할 순서를 받음
 
@@ -100,7 +102,51 @@ function processing(line){
 function push(v){
     // 큐브를 조작
     // 총 몇회를 조작했는지 기록
-    console.log(`executed : ${v}`)
+
+    if (v === 'F'){
+        f_operation()
+        timesCounter()
+    } else if (v === "F'"){
+        f_operation()
+        f_operation()
+        f_operation()
+        timesCounter()
+    }
+}
+
+function f_operation(){
+    let temp = JSON.parse(JSON.stringify(CUBE[1]))
+    for(let i = 0; i < 3; i++){
+        for(let j = 0; j<3; j++){
+            temp[j][3-1-i] = CUBE[1][i][j]
+        }
+    }
+    CUBE[1] = temp;
+
+    let sideTemp = [CUBE[0][2][0],CUBE[0][2][1],CUBE[0][2][2]]
+    CUBE[0][2][0] = CUBE[4][2][2]
+    CUBE[0][2][1] = CUBE[4][1][2]
+    CUBE[0][2][2] = CUBE[4][0][2] // UL
+    
+    CUBE[4][0][2] = CUBE[5][0][0]
+    CUBE[4][1][2] = CUBE[5][0][1]
+    CUBE[4][2][2] = CUBE[5][0][2] // LD
+    
+    CUBE[5][0][0] = CUBE[2][2][0]
+    CUBE[5][0][1] = CUBE[2][1][0]
+    CUBE[5][0][2] = CUBE[2][0][0] // DR
+
+    CUBE[2][0][0] = sideTemp[0]
+    CUBE[2][1][0] = sideTemp[1]
+    CUBE[2][2][0] = sideTemp[2] // R = TEMP
+}
+
+function timesCounter(){
+    count += 1
+}
+
+function timesReset(){
+    count = 0
 }
 
 function timeMeasure(startTime, endTime){

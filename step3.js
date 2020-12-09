@@ -1,4 +1,5 @@
 const colors = require('colors');
+const { time } = require('console');
 const OPERATION_SET = ['U','L','F','R','B','D']
 const readline = require('readline');
 let count = 0
@@ -25,7 +26,7 @@ const CUBE = [  [   ['U1','U2','U3'],
 
 function printArray(cube){
     // 현재 큐브의 상태를 출력
-
+    console.log(`=================== 현재 조작 갯수 :${count} ===================`.blue)
     cube.map (function(dim, idx){
         if(idx === 0 || idx == 5){
             dim.map( (arr) => 
@@ -40,6 +41,8 @@ function printArray(cube){
             }+console.log()
         }
     })
+    console.log(`==========================================================`.blue)
+    console.log("")
 }
 
 function getInput(){
@@ -102,6 +105,7 @@ function processing(line){
 function push(v){
     // 큐브를 조작
     // 총 몇회를 조작했는지 기록
+    console.log(`${v}를 수행`.green)
 
     if (v === 'F'){
         f_operation()
@@ -111,7 +115,74 @@ function push(v){
         f_operation()
         f_operation()
         timesCounter()
+    } else if (v === "U"){
+        u_operation()
+        timesCounter()
+    } else if (v === "U'"){
+        u_operation()
+        u_operation()
+        u_operation()
+        timesCounter()
+    } else if (v === "R"){
+        r_operation()
+        timesCounter()
+    } else if (v === "R'"){
+        r_operation()
+        r_operation()
+        r_operation()
+        timesCounter()
+    } else if (v === "B"){
+        b_operation()
+        timesCounter()
+    } else if (v === "B'"){
+        b_operation()
+        b_operation()
+        b_operation()
+        timesCounter()
+    } else if (v === "L"){
+        l_operation()
+        timesCounter()
+    } else if (v === "L'"){
+        l_operation()
+        l_operation()
+        l_operation()
+        timesCounter()
+    } else if (v === "D"){
+        d_operation()
+        timesCounter()
+    } else if (v === "D'"){
+        d_operation()
+        d_operation()
+        d_operation()
+        timesCounter()
     }
+}
+
+function u_operation(){
+    let temp = JSON.parse(JSON.stringify(CUBE[0]))
+    for(let i = 0; i < 3; i++){
+        for(let j = 0; j<3; j++){
+            temp[j][3-1-i] = CUBE[0][i][j]
+        }
+    }
+    CUBE[0] = temp;
+
+    let sideTemp = [CUBE[1][0][0],CUBE[1][0][1],CUBE[1][0][2]] // F
+    CUBE[1][0][0] = CUBE[2][0][0]
+    CUBE[1][0][1] = CUBE[2][0][1]
+    CUBE[1][0][2] = CUBE[2][0][2] // FR
+    
+    CUBE[2][0][0] = CUBE[3][0][0]
+    CUBE[2][0][1] = CUBE[3][0][1]
+    CUBE[2][0][2] = CUBE[3][0][2] // RB
+    
+    CUBE[3][0][0] = CUBE[4][0][0]
+    CUBE[3][0][1] = CUBE[4][0][1]
+    CUBE[3][0][2] = CUBE[4][0][2] // BL
+
+    CUBE[4][0][0] = sideTemp[0]
+    CUBE[4][0][1] = sideTemp[1]
+    CUBE[4][0][2] = sideTemp[2] // LF
 }
 
 function f_operation(){
@@ -141,6 +212,114 @@ function f_operation(){
     CUBE[2][2][0] = sideTemp[2] // R = TEMP
 }
 
+function r_operation(){
+    let temp = JSON.parse(JSON.stringify(CUBE[2]))
+    for(let i = 0; i < 3; i++){
+        for(let j = 0; j<3; j++){
+            temp[j][3-1-i] = CUBE[2][i][j]
+        }
+    }
+    CUBE[2] = temp;
+
+    let sideTemp = [CUBE[0][0][2],CUBE[0][1][2],CUBE[0][2][2]]  // U
+    CUBE[0][0][2] = CUBE[1][0][2]
+    CUBE[0][1][2] = CUBE[1][1][2]
+    CUBE[0][2][2] = CUBE[1][2][2] // UF
+    
+    CUBE[1][0][2] = CUBE[5][0][2]
+    CUBE[1][1][2] = CUBE[5][1][2]
+    CUBE[1][2][2] = CUBE[5][2][2] // FD
+    
+    CUBE[5][0][2] = CUBE[3][0][0]
+    CUBE[5][1][2] = CUBE[3][1][0]
+    CUBE[5][2][2] = CUBE[3][2][0] // DB
+
+    CUBE[3][0][0] = sideTemp[0]
+    CUBE[3][1][0] = sideTemp[1]
+    CUBE[3][2][0] = sideTemp[2] // BU
+}
+
+function b_operation(){
+    let temp = JSON.parse(JSON.stringify(CUBE[3]))
+    for(let i = 0; i < 3; i++){
+        for(let j = 0; j<3; j++){
+            temp[j][3-1-i] = CUBE[3][i][j]
+        }
+    }
+    CUBE[3] = temp;
+
+    let sideTemp = [CUBE[0][0][0],CUBE[0][0][1],CUBE[0][0][2]]  // U
+    CUBE[0][0][0] = CUBE[2][0][2]
+    CUBE[0][0][1] = CUBE[2][1][2]
+    CUBE[0][0][2] = CUBE[2][2][2] // UR
+    
+    CUBE[2][0][2] = CUBE[5][2][0]
+    CUBE[2][1][2] = CUBE[5][2][1]
+    CUBE[2][2][2] = CUBE[5][2][2] // RD
+    
+    CUBE[5][2][0] = CUBE[4][0][0]
+    CUBE[5][2][1] = CUBE[4][1][0]
+    CUBE[5][2][2] = CUBE[4][2][0] // DL
+
+    CUBE[4][0][0] = sideTemp[0]
+    CUBE[4][1][0] = sideTemp[1]
+    CUBE[4][2][0] = sideTemp[2] // LU
+}
+
+function l_operation(){
+    let temp = JSON.parse(JSON.stringify(CUBE[4]))
+    for(let i = 0; i < 3; i++){
+        for(let j = 0; j<3; j++){
+            temp[j][3-1-i] = CUBE[4][i][j]
+        }
+    }
+    CUBE[4] = temp;
+
+    let sideTemp = [CUBE[0][0][0],CUBE[0][1][0],CUBE[0][2][0]]  // U
+    CUBE[0][0][0] = CUBE[3][2][2]
+    CUBE[0][1][0] = CUBE[3][1][2]
+    CUBE[0][2][0] = CUBE[3][0][2] // UB
+    
+    CUBE[3][0][2] = CUBE[5][2][0]
+    CUBE[3][1][2] = CUBE[5][1][0]
+    CUBE[3][2][2] = CUBE[5][0][0] // BD
+    
+    CUBE[5][0][0] = CUBE[1][0][0]
+    CUBE[5][1][0] = CUBE[1][1][0]
+    CUBE[5][2][0] = CUBE[1][2][0] // DF
+
+    CUBE[1][0][0] = sideTemp[0]
+    CUBE[1][1][0] = sideTemp[1]
+    CUBE[1][2][0] = sideTemp[2] // FU
+}
+
+function d_operation(){
+    let temp = JSON.parse(JSON.stringify(CUBE[5]))
+    for(let i = 0; i < 3; i++){
+        for(let j = 0; j<3; j++){
+            temp[j][3-1-i] = CUBE[5][i][j]
+        }
+    }
+    CUBE[5] = temp;
+
+    let sideTemp = [CUBE[1][2][0],CUBE[1][2][1],CUBE[1][2][2]]  // F
+    CUBE[1][2][0] = CUBE[4][2][0]
+    CUBE[1][2][1] = CUBE[4][2][1]
+    CUBE[1][2][2] = CUBE[4][2][2] // FL
+    
+    CUBE[4][2][0] = CUBE[3][2][0]
+    CUBE[4][2][1] = CUBE[3][2][1]
+    CUBE[4][2][2] = CUBE[3][2][2] // LB
+    
+    CUBE[3][2][0] = CUBE[2][2][0]
+    CUBE[3][2][1] = CUBE[2][2][1]
+    CUBE[3][2][2] = CUBE[2][2][2] // BR
+
+    CUBE[2][2][0] = sideTemp[0]
+    CUBE[2][2][1] = sideTemp[1]
+    CUBE[2][2][2] = sideTemp[2] // RF
+}
+
 function timesCounter(){
     count += 1
 }
@@ -163,9 +342,10 @@ function printCount(){
 function mixCube(){
     // 초기값에서 임의로 F,R,U,B,L,D를 사용한 문자열을 생성하여 수행
     mixLine = ''
-    for(let i=0; i < 10 ; i++){
+    for(let i=0; i < 5 ; i++){
         mixLine += getRandomOperationSet()
     }
+
     let queue = parser(mixLine.split(''))
     queue.map(function(v){
         push(v)

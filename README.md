@@ -5,3 +5,6 @@
 
 ## STEP2
 ![](img/step2.png)
+
+## STEP3
+![](img/cube.gif)

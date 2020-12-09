@@ -47,7 +47,7 @@ function printArray(cube){
 
 function getInput(){
     console.log("초기 상태 출력".red)
-    mixCube()
+    let answer = getAnswer(mixCube())
     printArray(CUBE)
     // 큐브를 조작할 순서를 받음
 
@@ -57,6 +57,9 @@ function getInput(){
     rl.on('line', function(line) {
         if (line.toLowerCase() === 'q' || line.toLowerCase()==='quit'){
             rl.close()
+        } else if(line.toLowerCase() === 'answer'){
+            console.log("################### answer ###############".red)
+            processing(answer)
         } else {
             processing(line)
         }
@@ -102,7 +105,7 @@ function processing(line){
     })
 }
 
-function push(v, mixFlag){
+function push(v){
     // 큐브를 조작
     // 총 몇회를 조작했는지 기록
     if (mixFlag !== 0){
@@ -352,10 +355,11 @@ function mixCube(){
 
     let queue = parser(mixLine.split(''))
     queue.map(function(v){
-        push(v, mixFlag)
+        push(v)
     })
     mixFlag = 1;
     timesReset();
+    return mixLine;
 }
 
 function getRandomOperationSet(){
@@ -366,6 +370,9 @@ function completeCheck(){
     // push를 수행할 때마다 모든 면이 같은 색상이 되었는지 확인
 }
 
+function getAnswer(mixLine){
+    return mixLine.split("").reverse().map( v => v.concat("'")).join('')
+}
 
 let startTime = new Date()
 getInput()

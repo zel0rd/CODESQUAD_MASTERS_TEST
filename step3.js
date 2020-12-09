@@ -1,8 +1,8 @@
 const colors = require('colors');
-const { time } = require('console');
 const OPERATION_SET = ['U','L','F','R','B','D']
 const readline = require('readline');
 let count = 0
+let mixFlag = 0
 
 const CUBE = [  [   ['U1','U2','U3'],
                     ['U4','U5','U6'],
@@ -102,10 +102,12 @@ function processing(line){
     })
 }
 
-function push(v){
+function push(v, mixFlag){
     // 큐브를 조작
     // 총 몇회를 조작했는지 기록
-    console.log(`${v}를 수행`.green)
+    if (mixFlag !== 0){
+        console.log(`${v}를 수행`.green)
+    }
 
     if (v === 'F'){
         f_operation()
@@ -346,11 +348,14 @@ function mixCube(){
         mixLine += getRandomOperationSet()
     }
 
+    console.log(`정답 ${mixLine}`)
+
     let queue = parser(mixLine.split(''))
     queue.map(function(v){
-        push(v)
+        push(v, mixFlag)
     })
-    timesReset()
+    mixFlag = 1;
+    timesReset();
 }
 
 function getRandomOperationSet(){

@@ -102,12 +102,14 @@ function processing(line){
     queue.map(function(v){
         push(v)
         printArray(CUBE)
+        completeCheck()
     })
 }
 
 function push(v){
     // 큐브를 조작
     // 총 몇회를 조작했는지 기록
+
     if (mixFlag !== 0){
         console.log(`${v}를 수행`.green)
     }
@@ -161,6 +163,7 @@ function push(v){
         d_operation()
         timesCounter()
     }
+    
 }
 
 function u_operation(){
@@ -351,7 +354,7 @@ function mixCube(){
         mixLine += getRandomOperationSet()
     }
 
-    console.log(`정답 ${mixLine}`)
+    // console.log(`정답 ${mixLine}`)
 
     let queue = parser(mixLine.split(''))
     queue.map(function(v){
@@ -368,6 +371,27 @@ function getRandomOperationSet(){
 
 function completeCheck(){
     // push를 수행할 때마다 모든 면이 같은 색상이 되었는지 확인
+    let checker = 0;
+    let result = CUBE.flat().flat().map( function(v) { return v[0] } )
+    for(let i = 0; i < 6; i++){
+        if( new Set(temp = result.slice(9*i, 9*i + 9)).size === 1){
+            checker += 1;
+        }
+    }
+
+    if (checker === 6){
+        congratulation()
+    }
+}
+
+function congratulation(){
+    console.log("##############################################".rainbow)
+    console.log("############### congratulation ###############".rainbow)
+    timeMeasure(startTime,  new Date())
+    printCount()
+    console.log("############### congratulation ###############".rainbow)
+    console.log("##############################################".rainbow)
+    process.exit();
 }
 
 function getAnswer(mixLine){

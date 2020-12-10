@@ -47,6 +47,7 @@ function printArray(cube){
 
 function getInput(){
     console.log("초기 상태 출력".red)
+    let startTime = new Date()
     let answer = getAnswer(mixCube())
     printArray(CUBE)
     // 큐브를 조작할 순서를 받음
@@ -59,9 +60,9 @@ function getInput(){
             rl.close()
         } else if(line.toLowerCase() === 'answer'){
             console.log("################### answer ###############".red)
-            processing(answer)
+            processing(answer, startTime)
         } else {
-            processing(line)
+            processing(line, startTime)
         }
         rl.prompt()
     })
@@ -97,13 +98,13 @@ function parser(queue){
     return queue
 }
 
-function processing(line){
+function processing(line, startTime){
     // parser를 거친 input을 count 횟수만큼 push에 호출
     let queue = parser(line.split(''))
     queue.map(function(v){
         push(v)
         printArray(CUBE)
-        completeCheck()
+        completeCheck(startTime)
     })
 }
 
@@ -317,9 +318,7 @@ function timeMeasure(startTime, endTime){
     let seconds = parseInt((endTime-startTime)/1000%60)
     minutes = minutes > 9 ? ""+minutes : "0"+minutes
     seconds = seconds > 9 ? ""+seconds : "0"+seconds
-    // console.log(`경과시간:`,`${minutes > 9 ? ""+minutes : "0"+minutes}:${seconds > 9 ? ""+seconds : "0"+seconds}`.red)
     process.stdout.write(`경과시간: ` + minutes+"분"+seconds+"초")
-    // console.log(`경과시간: ` + minutes.red+"분".red+seconds.red+"초".red)
 }
 
 function printCount(){
@@ -348,7 +347,7 @@ function getRandomOperationSet(){
     return OPERATION_SET[Math.floor(Math.random() * OPERATION_SET.length)]
 }
 
-function completeCheck(){
+function completeCheck(startTime){
     // push를 수행할 때마다 모든 면이 같은 색상이 되었는지 확인
     let checker = 0;
     let result = CUBE.flat().flat().map( function(v) { return v[0] } )
@@ -359,11 +358,11 @@ function completeCheck(){
     }
 
     if (checker === 6){
-        congratulation()
+        congratulation(startTime)
     }
 }
 
-function congratulation(){
+function congratulation(startTime){
     console.log("##############################################".rainbow)
     console.log("##########      congratulation    ##########".rainbow)
     process.stdout.write("#########     ".rainbow)
@@ -381,5 +380,4 @@ function getAnswer(mixLine){
     return mixLine.split("").reverse().map( v => v.concat("'")).join('')
 }
 
-let startTime = new Date()
 getInput()

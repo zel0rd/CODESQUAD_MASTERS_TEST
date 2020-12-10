@@ -364,13 +364,13 @@ function completeCheck(startTime){
 
 function congratulation(startTime){
     console.log("##############################################".rainbow)
-    console.log("##########      congratulation    ##########".rainbow)
-    process.stdout.write("#########     ".rainbow)
+    console.log("##########      congratulation      ##########".rainbow)
+    process.stdout.write("########      ".rainbow)
     timeMeasure(startTime,  new Date())
-    process.stdout.write("     #########\n".rainbow)
-    process.stdout.write("#########     ".rainbow)
+    process.stdout.write("      ########\n".rainbow)
+    process.stdout.write("########      ".rainbow)
     printCount()
-    process.stdout.write("     #########\n".rainbow)
+    process.stdout.write("      ########\n".rainbow)
     console.log("##########      congratulation      ##########".rainbow)
     console.log("##############################################".rainbow)
     process.exit();

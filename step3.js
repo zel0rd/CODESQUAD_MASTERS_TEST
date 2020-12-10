@@ -67,6 +67,7 @@ function getInput(){
     })
     .on('close', () => {
         timeMeasure(startTime,  new Date())
+        console.log()
         printCount()
         process.exit();
     })
@@ -167,13 +168,7 @@ function push(v){
 }
 
 function u_operation(){
-    let temp = JSON.parse(JSON.stringify(CUBE[0]))
-    for(let i = 0; i < 3; i++){
-        for(let j = 0; j<3; j++){
-            temp[j][3-1-i] = CUBE[0][i][j]
-        }
-    }
-    CUBE[0] = temp;
+    CUBE[0] = rotate(CUBE[0])
 
     let sideTemp = [CUBE[1][0][0],CUBE[1][0][1],CUBE[1][0][2]] // F
     CUBE[1][0][0] = CUBE[2][0][0]
@@ -194,13 +189,7 @@ function u_operation(){
 }
 
 function f_operation(){
-    let temp = JSON.parse(JSON.stringify(CUBE[1]))
-    for(let i = 0; i < 3; i++){
-        for(let j = 0; j<3; j++){
-            temp[j][3-1-i] = CUBE[1][i][j]
-        }
-    }
-    CUBE[1] = temp;
+    CUBE[1] = rotate(CUBE[1])
 
     let sideTemp = [CUBE[0][2][0],CUBE[0][2][1],CUBE[0][2][2]]
     CUBE[0][2][0] = CUBE[4][2][2]
@@ -221,13 +210,7 @@ function f_operation(){
 }
 
 function r_operation(){
-    let temp = JSON.parse(JSON.stringify(CUBE[2]))
-    for(let i = 0; i < 3; i++){
-        for(let j = 0; j<3; j++){
-            temp[j][3-1-i] = CUBE[2][i][j]
-        }
-    }
-    CUBE[2] = temp;
+    CUBE[2] = rotate(CUBE[2])
 
     let sideTemp = [CUBE[0][0][2],CUBE[0][1][2],CUBE[0][2][2]]  // U
     CUBE[0][0][2] = CUBE[1][0][2]
@@ -248,13 +231,7 @@ function r_operation(){
 }
 
 function b_operation(){
-    let temp = JSON.parse(JSON.stringify(CUBE[3]))
-    for(let i = 0; i < 3; i++){
-        for(let j = 0; j<3; j++){
-            temp[j][3-1-i] = CUBE[3][i][j]
-        }
-    }
-    CUBE[3] = temp;
+    CUBE[3] = rotate(CUBE[3])
 
     let sideTemp = [CUBE[0][0][0],CUBE[0][0][1],CUBE[0][0][2]]  // U
     CUBE[0][0][0] = CUBE[2][0][2]
@@ -275,13 +252,7 @@ function b_operation(){
 }
 
 function l_operation(){
-    let temp = JSON.parse(JSON.stringify(CUBE[4]))
-    for(let i = 0; i < 3; i++){
-        for(let j = 0; j<3; j++){
-            temp[j][3-1-i] = CUBE[4][i][j]
-        }
-    }
-    CUBE[4] = temp;
+    CUBE[4] = rotate(CUBE[4])
 
     let sideTemp = [CUBE[0][0][0],CUBE[0][1][0],CUBE[0][2][0]]  // U
     CUBE[0][0][0] = CUBE[3][2][2]
@@ -302,13 +273,7 @@ function l_operation(){
 }
 
 function d_operation(){
-    let temp = JSON.parse(JSON.stringify(CUBE[5]))
-    for(let i = 0; i < 3; i++){
-        for(let j = 0; j<3; j++){
-            temp[j][3-1-i] = CUBE[5][i][j]
-        }
-    }
-    CUBE[5] = temp;
+    CUBE[5] = rotate(CUBE[5])
 
     let sideTemp = [CUBE[1][2][0],CUBE[1][2][1],CUBE[1][2][2]]  // F
     CUBE[1][2][0] = CUBE[4][2][0]
@@ -328,6 +293,16 @@ function d_operation(){
     CUBE[2][2][2] = sideTemp[2] // RF
 }
 
+function rotate(dim){
+    let rotated_dim = JSON.parse(JSON.stringify(dim))
+    for(let i = 0; i < 3; i++){
+        for(let j = 0; j<3; j++){
+            rotated_dim[j][3-1-i] = dim[i][j]
+        }
+    }
+    return rotated_dim
+}
+
 function timesCounter(){
     count += 1
 }
@@ -340,11 +315,15 @@ function timeMeasure(startTime, endTime){
     // 시작부터 끝날 때 까지의 시간을 기록
     let minutes = parseInt((endTime-startTime)/1000/60)
     let seconds = parseInt((endTime-startTime)/1000%60)
-    console.log(`경과시간:`,`${minutes > 9 ? ""+minutes : "0"+minutes}:${seconds > 9 ? ""+seconds : "0"+seconds}`.red)
+    minutes = minutes > 9 ? ""+minutes : "0"+minutes
+    seconds = seconds > 9 ? ""+seconds : "0"+seconds
+    // console.log(`경과시간:`,`${minutes > 9 ? ""+minutes : "0"+minutes}:${seconds > 9 ? ""+seconds : "0"+seconds}`.red)
+    process.stdout.write(`경과시간: ` + minutes+"분"+seconds+"초")
+    // console.log(`경과시간: ` + minutes.red+"분".red+seconds.red+"초".red)
 }
 
 function printCount(){
-    console.log(`조작갯수:`,`${count}`.red)
+    process.stdout.write(`조작갯수: `+count+"\t")
 }
 
 function mixCube(){
@@ -386,10 +365,14 @@ function completeCheck(){
 
 function congratulation(){
     console.log("##############################################".rainbow)
-    console.log("############### congratulation ###############".rainbow)
+    console.log("##########      congratulation    ##########".rainbow)
+    process.stdout.write("#########     ".rainbow)
     timeMeasure(startTime,  new Date())
+    process.stdout.write("     #########\n".rainbow)
+    process.stdout.write("#########     ".rainbow)
     printCount()
-    console.log("############### congratulation ###############".rainbow)
+    process.stdout.write("     #########\n".rainbow)
+    console.log("##########      congratulation      ##########".rainbow)
     console.log("##############################################".rainbow)
     process.exit();
 }
